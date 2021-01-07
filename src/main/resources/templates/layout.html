@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" th:href="@{/assets/thirds/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/assets/thirds/bootstrap-vue.min.css}" />
+    
+    <!-- Load Vue followed by BootstrapVue -->
+    <script th:src="@{/assets/thirds/vue.min.js}"></script>
+    <script th:src="@{/assets/thirds/bootstrap-vue.min.js}"></script>
+    
+    <!-- Load the following for BootstrapVueIcons support -->
+    <script th:src="@{/assets/thirds/bootstrap-vue-icons.min.js}"></script>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header">
+    <a href="fragments/header.html">Header</a> fragment will go here
+</div>
+
+<main role="main" class="container mt-3 mb-3">
+    <div layout:fragment="content" id="content">
+        content will go here
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer">
+    <a href="fragments/footer.html">Footer</a> fragment will go here
+</div>
+
+<script th:replace="fragments/scripts"/>
+</body>
+</html>
