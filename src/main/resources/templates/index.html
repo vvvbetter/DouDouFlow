@@ -5,22 +5,32 @@
     <link rel="stylesheet" th:href="@{/assets/css/index.css}">
   </head>
   <body>
-    <div layout:fragment="content" class="row" id="app">
-      <div>
-        <b-button size="sm" @click="toggle">
-          {{ show ? 'Hide' : 'Show' }} Alert
-        </b-button>
-        <b-alert
-          v-model="show"
-          class="mt-3"
-          dismissible
-          @dismissed="dismissed"
-        >
-          Hello {{ name }}!
-        </b-alert>
-        
-        
-      </div>
+    <div layout:fragment="content" id="app">
+      <b-row>
+        <b-col cols="4" class="pl-1 pr-2">
+          <b-card>
+          </b-card>
+        </b-col>
+        <b-col cols="8" class="pl-0 pr-1">
+          <b-card>
+            <div>
+            <b-button size="sm" @click="toggle">
+              {{ show ? 'Hide' : 'Show' }} Alert
+            </b-button>
+            <b-alert
+              v-model="show"
+              class="mt-3"
+              dismissible
+              @dismissed="dismissed"
+            >
+              Hello {{ name }}!
+            </b-alert>
+            
+            
+            </div>
+          </b-card>
+      </b-col>
+      </b-row>
       <script th:src="@{/assets/js/index.js}"></script>
     </div>
 </body>

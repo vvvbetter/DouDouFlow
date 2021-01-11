@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html lang="en">
   <head>
     <title>请登录</title>
-    <!-- <th:block th:include="include/public :: head_commons"></th:block> -->
+    <!-- Load required Bootstrap and BootstrapVue CSS -->
+    <link type="text/css" rel="stylesheet" th:href="@{/assets/thirds/bootstrap.min.css}" />
+    <!-- <link type="text/css" rel="stylesheet" th:href="@{/assets/thirds/bootstrap-vue.min.css}" />
+    
+    Load Vue followed by BootstrapVue
+    <script th:src="@{/assets/thirds/vue.min.js}"></script>
+    <script th:src="@{/assets/thirds/bootstrap-vue.min.js}"></script>
+    
+    Load the following for BootstrapVueIcons support
+    <script th:src="@{/assets/thirds/bootstrap-vue-icons.min.js}"></script> -->
     <link rel="stylesheet" th:href="@{/assets/css/login.css}">
   </head>
   <body>
-    <div layout:fragment="content" class="row">
+    <div class="container">
       <form class="form-signin" method="post" th:action="@{/login}">
         <h2 class="form-signin-heading">请登录</h2>
         <!-- use param.error assuming FormLoginConfigurer#failureUrl contains the query parameter error -->
@@ -23,17 +32,18 @@
                 您已登出。
             </div>
         </th:block>
-        <p>
+        <p class="form-group">
           <label for="username" class="sr-only">用户名</label>
           <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required autofocus>
         </p>
-        <p>
+        <p class="form-group">
           <label for="password" class="sr-only">密 码</label>
           <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
         </p>
-        <p>
-          <input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me" value="true">
-          <label class="form-check-label" for="rememberMe">记住我</label>
+        <p class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" id="rememberMe" name="remember-me" value="true">记住我
+          </label>
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>
