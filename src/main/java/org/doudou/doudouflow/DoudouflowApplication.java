@@ -19,7 +19,7 @@ public class DoudouflowApplication {
 		SpringApplication.run(DoudouflowApplication.class, args);
 	}
 	
-	@Bean
+	//@Bean
 	public EntityManagerFactory entityManagerFactory() {
 		Map<String,String> properties = new HashMap<String,String>();
 		properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
@@ -38,7 +38,7 @@ public class DoudouflowApplication {
 		return entityManagerFactory;
 	}
 	
-	@Bean
+	//@Bean
 	public EntityManager entityManager() {
 		return entityManagerFactory().createEntityManager();
 	}

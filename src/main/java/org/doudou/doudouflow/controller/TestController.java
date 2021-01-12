@@ -8,12 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.sql.DataSource;
 
-import org.doudou.doudouflow.dao.entities.User;
+import org.doudou.doudouflow.dao.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -39,6 +38,8 @@ public class TestController {
 
 	@Autowired
 	private DefaultListableBeanFactory beanFactory;
+	@Autowired
+	private UserRepository userRepository;
 
 	// @Autowired
 	private DataSource dataSource;
@@ -98,15 +99,22 @@ public class TestController {
 					properties.put("hibernate.max_fetch_depth", "3");
 					properties.put("hibernate.hbm2ddl.auto", "update");
 					properties.put("hibernate.show_sql", "true");
-					EntityManagerFactory entityManagerFactory = beanFactory.getBean(EntityManagerFactory.class);
-					entityManagerFactory.close();
-					beanFactory.destroySingleton("entityManagerFactory");
-					beanFactory.destroySingleton("entityManager");
+					properties.put("hibernate.transaction.jta.platform", "org.hibernate.service.jta.platform.internal.WeblogicJtaPlatform");
+					if (beanFactory.containsSingleton("entityManagerFactory")) {
+						EntityManagerFactory entityManagerFactory = beanFactory.getBean(EntityManagerFactory.class);
+						entityManagerFactory.close();
+						beanFactory.destroySingleton("entityManagerFactory");
+						//beanFactory.destroySingleton("entityManager");
+						//beanFactory.destroySingleton("transactionManager");
+					}
 					EntityManagerFactory entityManagerFactory2 = Persistence.createEntityManagerFactory("jpa",
 							properties);
-					EntityManager entityManager = entityManagerFactory2.createEntityManager();
+//					EntityManager entityManager = entityManagerFactory2.createEntityManager();
 					beanFactory.registerSingleton("entityManagerFactory", entityManagerFactory2);
-					beanFactory.registerSingleton("entityManager", entityManager);
+//					beanFactory.registerSingleton("entityManager", entityManager);
+//					JpaTransactionManager transactionManager = new JpaTransactionManager(entityManagerFactory2);
+//					transactionManager.setEntityManagerFactory(entityManagerFactory2);
+//					beanFactory.registerSingleton("transactionManager", transactionManager);
 				}
 				return "test";
 			}
@@ -116,10 +124,7 @@ public class TestController {
 	@GetMapping("/test2")
 	@ResponseBody
 	public String test2() {
-		synchronized (beanFactory) {
-			EntityManager entityManager = beanFactory.getBean(EntityManager.class);
-			entityManager.find(User.class, "admin");
-		}
+		userRepository.test2();
 		return "test2";
 	}
 
