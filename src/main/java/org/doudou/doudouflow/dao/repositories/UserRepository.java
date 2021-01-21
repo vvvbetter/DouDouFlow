@@ -3,36 +3,57 @@ package org.doudou.doudouflow.dao.repositories;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-import org.doudou.doudouflow.ThreadLocalEntityManagerFactory;
 import org.doudou.doudouflow.dao.entities.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserRepository {
 
-	@Autowired
-	private DefaultListableBeanFactory beanFactory;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-    //@Transactional
-	public String test2() {
-		synchronized (beanFactory) {
-			EntityManager entityManager = ThreadLocalEntityManagerFactory.getInstance(beanFactory).getEntityMananger();
-			entityManager.getTransaction().begin();
-			User user = entityManager.find(User.class, "admin");
-			if (user == null) {
-				user = new User();
-				user.setUsername("admin");
-				entityManager.persist(user);
-			}else {
-				user.setLastLoginTime(new Date());
-				entityManager.persist(user);
-			}
-			//entityManager.flush();
-			entityManager.getTransaction().commit();
-		}
-		return "test2";
+	public String m1() {
+		return null;
 	}
+	
+	@Transactional(transactionManager = "transactionManager")
+	public String m() {
+		//test2();
+//		transactionTemplate.execute(new TransactionCallback<Integer>() {
+//
+//			@Override
+//			public Integer doInTransaction(TransactionStatus status) {
+//				User user = entityManager.find(User.class, "admin");
+//				if (user == null) {
+//					user = new User();
+//					user.setUsername("admin");
+//					entityManager.persist(user);
+//				} else {
+//					user.setLastLoginTime(new Date());
+//					// entityManager.remove(user);
+//					entityManager.persist(user);
+//				}
+//				entityManager.flush();
+//				return null;
+//			}
+//		});
+		
+		User user = entityManager.find(User.class, "admin");
+		if (user == null) {
+			user = new User();
+			user.setUsername("admin");
+			entityManager.persist(user);
+		} else {
+			user.setLastLoginTime(new Date());
+			entityManager.persist(user);
+		}
+		//System.out.println(entityManager);
+		//entityManager.flush();
+		
+		return null;
+	}
+
 }
